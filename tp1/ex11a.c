@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  int f2 = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC);
+  int f2 = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
 
   char buf[BUFFER_SIZE];
   ssize_t bytes_read = 0, bytes_written = 0;
