@@ -3,9 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void signal_handler(int signo) {
-    fprintf(stderr, "Hello!\n");
-}
+void signal_handler(int signo) { fprintf(stderr, "Hello!\n"); }
 
 int main() {
   struct sigaction new, old;
@@ -28,14 +26,12 @@ int main() {
     _exit(EXIT_FAILURE);
   }
 
-  if (pid == 0) {  // child
-    signal(SIGUSR1, signal_handler);
-    sleep(3);
+  if (pid == 0) { // child
+    pause();
   }
 
-  else {  // parent
+  else { // parent
     printf("World: ");
     kill(pid, SIGUSR1);
   }
-  
 }
