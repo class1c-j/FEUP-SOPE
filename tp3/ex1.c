@@ -7,7 +7,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-void transverse_dir(char *path) {
+void traverse_dir(char *path) {
   DIR *dp;
   if ((dp = opendir(path)) == NULL) {
     perror("opendir");
@@ -17,9 +17,7 @@ void transverse_dir(char *path) {
   while ((dirent = readdir(dp)) != NULL) {
     if (strcmp(dirent->d_name, ".") != 0 && strcmp(dirent->d_name, "..") != 0) {
       char file_path[PATH_MAX];
-      strcpy(file_path, path);
-      strcat(file_path, "/");
-      strcat(file_path, dirent->d_name);
+      snprintf(file_path, PATH_MAX, "%s/%s", path, dirent->d_name);
       struct stat st;
       if (stat(file_path, &st) < 0) {
         perror("stat");
@@ -32,9 +30,9 @@ void transverse_dir(char *path) {
           perror("fork");
           exit(EXIT_FAILURE);
         }
-        if (pid == 0) { // child
-          transverse_dir(file_path);
-        } else { // parent
+        if (pid == 0) {  // child
+          traverse_dir(file_path);
+        } else {  // parent
           wait(NULL);
         }
       }
@@ -48,5 +46,5 @@ int main(int argc, char *argv[]) {
     perror("getcwd");
     exit(EXIT_FAILURE);
   }
-  transverse_dir(current_dir);
+  traverse_dir(current_dir);
 }

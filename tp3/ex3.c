@@ -33,14 +33,14 @@ int main() {
       perror("fork");
       exit(EXIT_FAILURE);
     }
-    if (cpid == 0) { // child
+    if (cpid == 0) {  // child
       printf("Child; PID: %d; Session: %d ; Group: %d;\n", getpid(),
              getsid(cpid), getpgrp());
-    } else { // parent
+    } else {  // parent
       printf("Parent; PID: %d; Session: %d ; Group: %d;\n", getpid(),
              getsid(cpid), getpgrp());
     }
-  } else { // grandparent
+  } else {  // grandparent
     printf("Grandparent; PID: %d ; Session: %d ; Group: %d;\n", getpid(),
            getsid(pid), getpgrp());
   }
